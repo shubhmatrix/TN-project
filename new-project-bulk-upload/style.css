@@ -1,0 +1,22 @@
+.slide-in-right {
+    animation: slideInRight 0.2s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(16px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Optional: make table header sticky if the list is long */
+.bulk-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
