@@ -53,6 +53,30 @@
   font-style: italic;
 }
 
-button {
-  white-space: nowrap;
+#btn-settings {
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-color: #8CA3C0;
+  color: #4A5A70;
+  height: 34px;
+  display: flex;
+  align-items: center;
 }
+
+#btn-settings:hover {
+  background-color: #EFF4FB;
+  color: #4A5A70;
+  border-color: #6B859E;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.header > button {
+  margin-left: auto; /* pushes button to far right */
+}
+
