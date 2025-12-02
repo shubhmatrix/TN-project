@@ -9,26 +9,35 @@
   flex-direction: column;
   height: 100%;
   flex-grow: 1;
-  width: 60%;
+  width: 100%;
 }
 
-.template_content {
+.template-content {
   display: block;
+  flex-grow: 1;
+  width: 100%;
 }
 
 .header {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
+  position: relative;
+  width: 100%;
+  z-index: 1;
   background-color: #ffffff;
-  border-bottom: 1px solid #EBEBEB;
+  align-items: center;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
   height: 70px;
-  padding-left: 20px;
+  border-bottom: 1px solid #EBEBEB;
 }
 
 .context-bar-header {
-  font-size: 20px;
-  font-weight: 500;
+  color: #333;
+  font-weight: 600;
+  font-size: 17px;
+  margin: 5px 20px;
 }
 
 .header-divider {
@@ -37,14 +46,38 @@
   background-color: #EBEBEB;
 }
 
+/* Attributes Section */
+.header-attributes {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding: 12px 20px;
+  flex-wrap: wrap;
+}
+
 .attribute-name {
-  font-weight: bold;
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 10px;
 }
 
 .attribute-text {
-  color: #000;
+  font-size: 14px;
+  white-space: nowrap;
 }
 
 .attribute-text-unselected {
-  color: #888;
+  color: #a0a0a0;
+  font-size: 14px;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+/* Right-align Settings button */
+.settingsContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
 }
