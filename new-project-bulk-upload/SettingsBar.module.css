@@ -1,0 +1,11 @@
+.filtersContainer {
+  overflow-y: auto;
+  padding-bottom: 15px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #444;
+}
