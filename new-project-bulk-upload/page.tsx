@@ -98,6 +98,17 @@ export default function NewProjectBulkUploadPage() {
 
       </div>
     </div>
+
+    <SettingsBar
+  selectedJob={selectedJob}
+  selectedEquipment={selectedEquipment}
+  jobOptions={["20064528", "20064529"]}  // Replace with API later
+  equipmentOptions={["Tangent", "Anchor Bolt"]}  // Replace with API later
+  onJobChange={setSelectedJob}
+  onEquipmentChange={setSelectedEquipment}
+  onSave={handleSave}
+/>
+
   </>
 );
 
