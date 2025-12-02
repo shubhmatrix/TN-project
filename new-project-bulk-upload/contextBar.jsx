@@ -16,83 +16,48 @@ const ContextBar = ({
   header_title,
 }: ContextBarProps) => {
   return (
-    <div className={styles["page-content-container"]}>
-      <div className={styles["content-container"]}>
-        <div
-          className={styles["template-content"]}
-          id="new_asset_document"
-          style={{ overflowY: "auto" }}
-        >
-          {/* Header */}
-          <div className={styles.header} id="context_filter_bar">
-            <h1 className={styles["context-bar-header"]}>
-              {header_title}
-            </h1>
-          </div>
+  <div className={styles.container}>
+    <div className={styles.header}>
+      <h1 className={styles.title}>{header_title}</h1>
 
-          <div className={styles["header-divider"]}></div>
+      <div className={styles.attributes}>
+        <div className={styles.attrItem}>
+          <dt className={styles.label}>Job Number</dt>
+          <dd className={selectedJob ? styles.value : styles.unselected}>
+            {selectedJob || "Not Selected"}
+          </dd>
+        </div>
 
-          {/* Attributes */}
-          <div className={styles["header-attributes"]}>
-            <div>
-              <dt className={styles["attribute-name"]}>Job Number</dt>
-              <dd
-                className={
-                  selectedJob
-                    ? styles["attribute-text"]
-                    : styles["attribute-text-unselected"]
-                }
-              >
-                {selectedJob || "Not Selected"}
-              </dd>
-            </div>
+        <div className={styles.attrItem}>
+          <dt className={styles.label}>Job Name</dt>
+          <dd className={hasSaved ? styles.value : styles.unselected}>
+            {hasSaved
+              ? "Longwood – El Dorado 345kV Line Rebuild"
+              : "Not Selected"}
+          </dd>
+        </div>
 
-            <div>
-              <dt className={styles["attribute-name"]}>Job Name</dt>
-              <dd
-                className={
-                  hasSaved
-                    ? styles["attribute-text"]
-                    : styles["attribute-text-unselected"]
-                }
-              >
-                {hasSaved
-                  ? "Longwood – El Dorado 345kV Line Rebuild"
-                  : "Not Selected"}
-              </dd>
-            </div>
-
-            <div>
-              <dt className={styles["attribute-name"]}>Equipment</dt>
-              <dd
-                className={
-                  selectedEquipment
-                    ? styles["attribute-text"]
-                    : styles["attribute-text-unselected"]
-                }
-              >
-                {selectedEquipment || "Not Selected"}
-              </dd>
-            </div>
-          </div>
-
-          {/* Settings Button */}
-          <div className={styles.settingsContainer}>
-            <button
-              className="btn btn-outline-primary btn-sm"
-              id="btn-settings"
-              type="button"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#reportSettings"
-            >
-              Settings
-            </button>
-          </div>
-
+        <div className={styles.attrItem}>
+          <dt className={styles.label}>Equipment</dt>
+          <dd className={selectedEquipment ? styles.value : styles.unselected}>
+            {selectedEquipment || "Not Selected"}
+          </dd>
         </div>
       </div>
+
+      <button
+        className="btn btn-outline-primary btn-sm"
+        id="btn-settings"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#reportSettings"
+      >
+        Settings
+      </button>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default ContextBar;
