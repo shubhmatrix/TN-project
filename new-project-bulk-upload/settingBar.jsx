@@ -23,11 +23,11 @@ export default function SettingsBar({
 }: SettingsBarProps) {
   return (
     <div
-      className="offcanvas offcanvas-end"
-      tabIndex={-1}
-      id="reportSettings"
-      aria-labelledby="reportSettingsLabel"
-    >
+  className="offcanvas offcanvas-end"
+  tabIndex={-1}
+  id="reportSettings"       // must match button target
+  aria-labelledby="reportSettingsLabel"
+>
       {/* Header */}
       <div className="offcanvas-header">
         <h5 className="offcanvas-title fw-semibold" id="reportSettingsLabel">

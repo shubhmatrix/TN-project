@@ -99,15 +99,23 @@ export default function NewProjectBulkUploadPage() {
       </div>
     </div>
 
-    <SettingsBar
+    <ContextBar
   selectedJob={selectedJob}
   selectedEquipment={selectedEquipment}
-  jobOptions={["20064528", "20064529"]}  // Replace with API later
-  equipmentOptions={["Tangent", "Anchor Bolt"]}  // Replace with API later
-  onJobChange={setSelectedJob}
-  onEquipmentChange={setSelectedEquipment}
+  hasSaved={hasSaved}
+  header_title="Bulk Document Upload"
+/>
+
+<SettingsBar
+  selectedJob={selectedJob}
+  selectedEquipment={selectedEquipment}
+  jobOptions={jobOptions}
+  equipmentOptions={equipmentOptions}
+  onJobChange={handleJobChange}
+  onEquipmentChange={handleEquipmentChange}
   onSave={handleSave}
 />
+
 
   </>
 );
