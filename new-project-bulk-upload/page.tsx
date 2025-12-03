@@ -1,128 +1,103 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Navbar from "@/components/navbar";
+import ContextBar from "@/components/ContextBar";
+import SettingsBar from "@/components/SettingsBar";
 
-type BulkRow = {
-  id: number;
-  poleStructureName: string;
-  height: string;
-  structureType: string;
-  shopDrawing: string;
-  plsRtf: string;
-  plsXml: string;
+// ---- Static job list ----
+type JobOption = {
+  id: string;
+  number: string;
+  name: string;
 };
 
-const mockRows: BulkRow[] = [
+const jobOptions: JobOption[] = [
   {
-    id: 1,
-    poleStructureName: "20685402-132 kV / 475 kA / 120",
-    height: "120",
-    structureType: "Tangent",
-    shopDrawing: "\\imports\\Shop Drawing\\DRW-001-12345-A1.pdf",
-    plsRtf: "\\imports\\PLS RT Files\\PLS_001_12345_A1.rtf",
-    plsXml: "\\imports\\PLS XML Files\\PLS_001_12345_A1.xml",
+    id: "1",
+    number: "000000",
+    name: "Unknown Project",
   },
   {
-    id: 2,
-    poleStructureName: "20685403-132 kV / 500 kA / 130",
-    height: "130",
-    structureType: "Tangent",
-    shopDrawing: "\\imports\\Shop Drawing\\DRW-002-56789-B1.pdf",
-    plsRtf: "\\imports\\PLS RT Files\\PLS_002_56789_B1.rtf",
-    plsXml: "\\imports\\PLS XML Files\\PLS_002_56789_B1.xml",
+    id: "2",
+    number: "2006528",
+    name: "Longwood – EL Dorado 345kV Line Rebuild",
   },
-  // add more static rows if you want…
 ];
 
 export default function NewProjectBulkUploadPage() {
-  const [showSettings, setShowSettings] = useState(true);
+  const [jobNumber, setJobNumber] = useState("");
+  const [jobName, setJobName] = useState("");
+  const [selectedJobId, setSelectedJobId] = useState("");
   const [hasSaved, setHasSaved] = useState(false);
-
-  const [selectedJob, setSelectedJob] = useState("");
-  const [selectedEquipment, setSelectedEquipment] = useState("");
-
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [error, setError] = useState("");
 
+  // Auto open settings on first load if no job selected
+  useEffect(() => {
+    if (!jobNumber || !jobName) {
+      setIsSettingsOpen(true);
+    }
+  }, []);
+
+  const handleJobChange = (jobId: string) => {
+    setSelectedJobId(jobId);
+    const job = jobOptions.find((j) => j.id === jobId);
+    if (job) {
+      setJobNumber(job.number);
+      setJobName(job.name);
+      setError("");
+      setHasSaved(false);
+    } else {
+      setJobNumber("");
+      setJobName("");
+    }
+  };
+
   const handleSave = () => {
-    if (!selectedJob || !selectedEquipment) {
-      setError("Please select Job and Equipment to continue.");
+    if (!jobNumber || !jobName) {
+      setError("Please select a Job to continue.");
       return;
     }
-    setError("");
     setHasSaved(true);
-    setShowSettings(false);
+    setIsSettingsOpen(false);
   };
 
   return (
-  <>
-    {/* Navbar */}
-    <Navbar />
+    <>
+      {/* Navbar */}
+      <Navbar />
 
-    <div className="page-content-container">
-      <div className="template-content" id="new_asset_document" style={{ overflowY: "auto" }}>
+      {/* Context Bar */}
+      <ContextBar
+        jobNumber={jobNumber}
+        jobName={jobName}
+        hasSaved={hasSaved}
+        header_title="Bulk Document Upload"
+        onOpenSettings={() => setIsSettingsOpen(true)}
+      />
 
-        <div className="header" id="context_filter_bar">
-          <h1 id="context-bar-header" className="header-title">
-            {header_title}
-          </h1>
+      {/* Settings Drawer */}
+      <SettingsBar
+        isOpen={isSettingsOpen}
+        selectedJobId={selectedJobId}
+        jobOptions={jobOptions}
+        onJobChange={handleJobChange}
+        onSave={handleSave}
+        onClose={() => setIsSettingsOpen(false)}
+      />
+
+      {/* Optional inline error message */}
+      {error && (
+        <div style={{ padding: "10px 16px", color: "red", fontSize: 12 }}>
+          {error}
         </div>
+      )}
 
-        <div className="header-attributes">
-          {context_attributes?.map((attribute: any, index: number) => (
-            <div key={index}>
-              <dt className="attribute-name">{attribute.attribute_name}</dt>
-
-              <dd
-                className={
-                  attribute.attribute_value === "Not Selected"
-                    ? "attribute-text-unselected"
-                    : "attribute-text"
-                }
-              >
-                {attribute.attribute_value}
-              </dd>
-            </div>
-          ))}
-        </div>
-
-        {/* Settings Button */}
-        <button
-          className="btn btn-outline-primary btn-sm me-4 float-end"
-          type="button"
-          id="btn-settings"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#reportSettings"
-        >
-          Settings
-        </button>
-
+      {/* Main content area (table etc.) */}
+      <div style={{ padding: "0 16px" }}>
+        {/* TODO: BulkUploadTable goes here */}
       </div>
-    </div>
-
-    <ContextBar
-  selectedJob={selectedJob}
-  selectedEquipment={selectedEquipment}
-  hasSaved={hasSaved}
-  header_title="Bulk Document Upload"
-/>
-
-<SettingsBar
-  isOpen={isSettingsOpen}
-  selectedJob={selectedJob}
-  selectedEquipment={selectedEquipment}
-  jobOptions={jobOptions}
-  equipmentOptions={equipmentOptions}
-  onJobChange={setSelectedJob}
-  onEquipmentChange={setSelectedEquipment}
-  onSave={() => {
-    setIsSettingsOpen(false);
-    setHasSaved(true);
-  }}
-  onClose={() => setIsSettingsOpen(false)}
-/>
-
-
-  </>
-);
-
+    </>
+  );
 }

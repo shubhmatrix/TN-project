@@ -1,74 +1,76 @@
 "use client";
-import { useState } from "react";
-import styles from "./SettingsBar.module.css";
+
+import { useEffect } from "react";
+import styles from "../styles/SettingsBar.module.css";
+
+type JobOption = {
+  id: string;
+  number: string;
+  name: string;
+};
 
 interface SettingsBarProps {
   isOpen: boolean;
-  selectedJob: string;
-  selectedEquipment: string;
-  jobOptions: string[];
-  equipmentOptions: string[];
-  onJobChange: (value: string) => void;
-  onEquipmentChange: (value: string) => void;
+  selectedJobId: string;
+  jobOptions: JobOption[];
+  onJobChange: (jobId: string) => void;
   onSave: () => void;
   onClose: () => void;
 }
 
 export default function SettingsBar({
   isOpen,
-  selectedJob,
-  selectedEquipment,
+  selectedJobId,
   jobOptions,
-  equipmentOptions,
   onJobChange,
-  onEquipmentChange,
   onSave,
   onClose,
 }: SettingsBarProps) {
+  // Close on ESC
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
     <>
-      {/* Overlay */}
-      {isOpen && <div className={styles.overlay} onClick={onClose}></div>}
+      {isOpen && <div className={styles.overlay} onClick={onClose} />}
 
-      {/* Right side drawer */}
-      <div className={`${styles.drawer} ${isOpen ? styles.open : ""}`}>
+      <aside className={`${styles.sidebar} ${isOpen ? styles.open : ""}`}>
         <div className={styles.header}>
-          <h4>Settings</h4>
-          <button className={styles.closeBtn} onClick={onClose}>✕</button>
+          <h3>Settings</h3>
+          <button className={styles.closeBtn} onClick={onClose}>
+            ×
+          </button>
         </div>
 
-        <div className={styles.body}>
-          <label>Job</label>
+        <div className={styles.content}>
+          <label className={styles.label}>Job</label>
           <select
-            value={selectedJob}
+            className={styles.select}
+            value={selectedJobId}
             onChange={(e) => onJobChange(e.target.value)}
           >
             <option value="">Select Job</option>
             {jobOptions.map((job) => (
-              <option key={job} value={job}>
-                {job}
+              <option key={job.id} value={job.id}>
+                {job.number} - {job.name}
               </option>
             ))}
           </select>
 
-          <label>Equipment</label>
-          <select
-            value={selectedEquipment}
-            onChange={(e) => onEquipmentChange(e.target.value)}
+          <button
+            className={styles.saveBtn}
+            onClick={onSave}
+            disabled={!selectedJobId}
           >
-            <option value="">Select Equipment</option>
-            {equipmentOptions.map((eq) => (
-              <option key={eq} value={eq}>
-                {eq}
-              </option>
-            ))}
-          </select>
-
-          <button className={styles.saveBtn} onClick={onSave}>
-            Save & Close
+            Save &amp; Close
           </button>
         </div>
-      </div>
+      </aside>
     </>
   );
 }

@@ -1,100 +1,12 @@
-.container {
-  width: 100%;
-}
-
-.header {
-  background: #FFFFFF;
-  border-bottom: 1px solid #E0E0E0;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px;
-  gap: 20px;
-  position: sticky;
-  top: 64px; /* below main nav */
-  z-index: 20;
-}
-
-.title {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.attributes {
-  display: flex;
-  gap: 40px;
-  align-items: center;
-  flex-wrap: wrap;
-  flex-grow: 1;
-}
-
-.attrItem dt {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 0;
-}
-
-.attrItem dd {
-  font-size: 13px;
-  font-weight: 500;
-  margin: 0;
-}
-
-.value {
-  color: #000;
-}
-
-.unselected {
-  color: #777;
-  font-style: italic;
-}
-
-#btn-settings {
-  border-radius: 6px;
-  font-size: 12px;
-  padding: 4px 12px;
-  border-color: #8CA3C0;
-  color: #4A5A70;
-  height: 34px;
-  display: flex;
-  align-items: center;
-}
-
-#btn-settings:hover {
-  background-color: #EFF4FB;
-  color: #4A5A70;
-  border-color: #6B859E;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-}
-
-.header > button {
-  margin-left: auto; /* pushes button to far right */
-}
-
-.settingsButton {
-  padding: 6px 20px;
-  border-radius: 12px;
-  border: 2px solid #2563eb;
-  background-color: transparent;
-  color: #2563eb;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.settingsButton:hover {
-  background-color: #2563eb;
-  color: white;
-}
-
-
+.container { width: 100%; background: #fff; border-bottom: 1px solid #e0e0e0; }
+.headerRow { display:flex; align-items:center; gap:32px; padding:8px 16px; }
+.title { font-size: 15px; font-weight: 600; margin: 0; white-space: nowrap; }
+.attributes { display:flex; gap:32px; flex-grow:1; }
+.attrItem dt { font-size: 12px; font-weight:600; color:#555; margin:0; }
+.attrItem dd { margin:0; font-size:13px; }
+.value { color:#000; }
+.unselected { color:#888; font-style:italic; }
+.settingsButton { padding:6px 20px; border-radius:12px; border:2px solid #2563eb;
+  background:transparent; color:#2563eb; font-weight:600; font-size:14px;
+  cursor:pointer; transition:all .2s; }
+.settingsButton:hover { background:#2563eb; color:#fff; }
