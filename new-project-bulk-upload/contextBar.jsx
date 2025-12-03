@@ -46,14 +46,12 @@ const ContextBar = ({
       </div>
 
       <button
-  className="btn btn-outline-primary btn-sm"
-  id="btn-settings"
-  type="button"
-  data-bs-toggle="offcanvas"
-  data-bs-target="#reportSettings"
+  className={styles.settingsButton}
+  onClick={() => setIsSettingsOpen(true)}
 >
   Settings
 </button>
+
 
     </div>
   </div>

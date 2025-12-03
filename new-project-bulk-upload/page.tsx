@@ -107,13 +107,18 @@ export default function NewProjectBulkUploadPage() {
 />
 
 <SettingsBar
+  isOpen={isSettingsOpen}
   selectedJob={selectedJob}
   selectedEquipment={selectedEquipment}
   jobOptions={jobOptions}
   equipmentOptions={equipmentOptions}
-  onJobChange={handleJobChange}
-  onEquipmentChange={handleEquipmentChange}
-  onSave={handleSave}
+  onJobChange={setSelectedJob}
+  onEquipmentChange={setSelectedEquipment}
+  onSave={() => {
+    setIsSettingsOpen(false);
+    setHasSaved(true);
+  }}
+  onClose={() => setIsSettingsOpen(false)}
 />
 
 

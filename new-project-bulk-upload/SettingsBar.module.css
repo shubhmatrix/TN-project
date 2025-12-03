@@ -1,11 +1,81 @@
-.filtersContainer {
-  overflow-y: auto;
-  padding-bottom: 15px;
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -360px;
+  width: 360px;
+  height: 100vh;
+  background: #fff;
+  border-left: 1px solid #ddd;
+  transition: right 0.3s ease-in-out;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
 }
 
-.label {
-  font-size: 13px;
+.open {
+  right: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.35);
+  z-index: 9998;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
   font-weight: 600;
-  margin-bottom: 6px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
   color: #444;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  background: #fafafa;
+  font-size: 14px;
+}
+
+.saveBtn {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.saveBtn:hover {
+  background-color: #1e40af;
 }

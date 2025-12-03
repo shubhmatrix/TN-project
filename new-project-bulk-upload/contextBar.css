@@ -80,3 +80,21 @@
   margin-left: auto; /* pushes button to far right */
 }
 
+.settingsButton {
+  padding: 6px 20px;
+  border-radius: 12px;
+  border: 2px solid #2563eb;
+  background-color: transparent;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.settingsButton:hover {
+  background-color: #2563eb;
+  color: white;
+}
+
+
