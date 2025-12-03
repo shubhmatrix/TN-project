@@ -52,100 +52,132 @@ export default function DocumentUploadPage() {
         onClose={() => setIsSettingsOpen(false)}
       />
 
-      <div style={{ padding: "40px" }}>
-        {!hasSaved && (
-          <p style={{ textAlign: "center", color: "#888", marginTop: "120px" }}>
-            Please select Job first using Settings bar to proceed with upload.
-          </p>
-        )}
+      <div style={{ padding: "24px 40px" }}>
+  {!hasSaved ? (
+    <p
+      style={{
+        textAlign: "center",
+        color: "#666",
+        marginTop: "120px",
+        fontSize: "15px",
+      }}
+    >
+      Please enter Job and Equipment selection via Settings bar to proceed with
+      asset upload.
+    </p>
+  ) : (
+    <>
+      {/* Pole Selector */}
+      <section style={{ marginBottom: "32px" }}>
+        <label
+          style={{
+            fontWeight: 600,
+            fontSize: "14px",
+            marginBottom: "8px",
+            display: "block",
+          }}
+        >
+          Pole Structure Search
+        </label>
 
-        {hasSaved && (
-          <>
-            {/* Pole Selection */}
-            <section style={{ marginBottom: "40px" }}>
-              <label
-                style={{ fontWeight: "600", marginBottom: "10px", display: "block" }}
-              >
-                Pole Structure Search
-              </label>
+        <select
+          style={{
+            width: "360px",
+            height: "34px",
+            borderRadius: "4px",
+            border: "1px solid #C7C7C7",
+            padding: "4px 8px",
+            background: "#fff",
+          }}
+          value={selectedPole}
+          onChange={(e) => setSelectedPole(e.target.value)}
+        >
+          <option value="">Select Pole</option>
+          {poleOptions.map((item, idx) => (
+            <option key={idx} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </section>
 
-              <select
-                style={{
-                  width: "400px",
-                  height: "36px",
-                  borderRadius: "4px",
-                  border: "1px solid #ccc",
-                  padding: "6px",
-                }}
-                value={selectedPole}
-                onChange={(e) => setSelectedPole(e.target.value)}
-              >
-                <option value="">Select Pole</option>
-                {poleOptions.map((item, idx) => (
-                  <option key={idx} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </section>
+      {/* Upload Panel */}
+      <section
+        style={{
+          width: "400px",
+          border: "1px solid #eee",
+          borderRadius: "6px",
+          padding: "16px 18px",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+          background: "#fff",
+        }}
+      >
+        <label style={{ fontWeight: 600, fontSize: "15px" }}>File 1</label>
 
-            {/* Upload Form */}
-            <section
+        {/* File Row */}
+        <div style={{ marginTop: "14px" }}>
+          <div style={{ marginBottom: "8px", fontSize: "13px" }}>Document Type</div>
+
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            <select
               style={{
-                border: "1px solid #ddd",
-                padding: "20px",
-                width: "380px",
-                borderRadius: "6px",
+                height: "34px",
+                flex: 1,
+                border: "1px solid #C7C7C7",
+                borderRadius: "4px",
+                padding: "4px 8px",
+                fontSize: "13px",
               }}
             >
-              <label style={{ fontWeight: "600" }}>File 1</label>
+              <option>Select Document Type</option>
+            </select>
 
-              <div style={{ marginTop: "10px" }}>
-                <label style={{ marginRight: "10px" }}>Document Type:</label>
-                <select
-                  style={{
-                    height: "32px",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                  }}
-                >
-                  <option>Select Document Type</option>
-                </select>
-                <input type="file" style={{ marginLeft: "10px" }} />
-              </div>
+            <input
+              type="file"
+              style={{
+                height: "34px",
+                fontSize: "13px",
+                border: "none",
+              }}
+            />
+          </div>
+        </div>
 
-              <div style={{ marginTop: "16px" }}>
-                <button
-                  style={{
-                    marginRight: "10px",
-                    padding: "6px 14px",
-                    background: "#007bff",
-                    color: "#fff",
-                    borderRadius: "4px",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Upload
-                </button>
+        {/* Buttons */}
+        <div style={{ marginTop: "18px", display: "flex", gap: "10px" }}>
+          <button
+            style={{
+              background: "#007BFF",
+              border: "none",
+              color: "white",
+              padding: "6px 18px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "13px",
+            }}
+          >
+            Upload
+          </button>
 
-                <button
-                  style={{
-                    padding: "6px 14px",
-                    background: "#fff",
-                    color: "#444",
-                    borderRadius: "4px",
-                    border: "1px solid #ccc",
-                    cursor: "pointer",
-                  }}
-                >
-                  Add Another
-                </button>
-              </div>
-            </section>
-          </>
-        )}
-      </div>
+          <button
+            style={{
+              background: "white",
+              border: "1px solid #C7C7C7",
+              padding: "6px 18px",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontSize: "13px",
+              color: "#555",
+            }}
+          >
+            Add Another
+          </button>
+        </div>
+      </section>
+    </>
+  )}
+</div>
+
     </>
   );
 }
