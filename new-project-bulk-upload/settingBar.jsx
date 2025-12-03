@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "../styles/SettingsBar.module.css";
 
 type JobOption = {
@@ -26,7 +26,32 @@ export default function SettingsBar({
   onSave,
   onClose,
 }: SettingsBarProps) {
-  // Close on ESC
+  // local search state
+  const [query, setQuery] = useState("");
+  const [isListOpen, setIsListOpen] = useState(false);
+
+  // synchronize query with selected job when drawer opens
+  useEffect(() => {
+    if (!isOpen) return;
+    const j = jobOptions.find((job) => job.id === selectedJobId);
+    if (j) {
+      setQuery(`${j.number} - ${j.name}`);
+    } else {
+      setQuery("");
+    }
+    setIsListOpen(false);
+  }, [isOpen, selectedJobId, jobOptions]);
+
+  // filter jobs by query
+  const filteredJobs = useMemo(() => {
+    if (!query) return jobOptions;
+    const q = query.toLowerCase();
+    return jobOptions.filter((job) =>
+      `${job.number} - ${job.name}`.toLowerCase().includes(q)
+    );
+  }, [query, jobOptions]);
+
+  // ESC closes sidebar
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -34,6 +59,17 @@ export default function SettingsBar({
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
+
+  const handleSelectJob = (job: JobOption) => {
+    onJobChange(job.id);
+    setQuery(`${job.number} - ${job.name}`);
+    setIsListOpen(false);
+  };
+
+  const handleSaveClick = () => {
+    if (!selectedJobId) return;
+    onSave();
+  };
 
   return (
     <>
@@ -48,23 +84,57 @@ export default function SettingsBar({
         </div>
 
         <div className={styles.content}>
+          {/* Job label */}
           <label className={styles.label}>Job</label>
-          <select
-            className={styles.select}
-            value={selectedJobId}
-            onChange={(e) => onJobChange(e.target.value)}
-          >
-            <option value="">Select Job</option>
-            {jobOptions.map((job) => (
-              <option key={job.id} value={job.id}>
-                {job.number} - {job.name}
-              </option>
-            ))}
-          </select>
+
+          {/* Searchable dropdown */}
+          <div className={styles.jobSelect}>
+            <input
+              className={styles.jobInput}
+              value={query}
+              placeholder="Select Job"
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setIsListOpen(true);
+              }}
+              onFocus={() => setIsListOpen(true)}
+            />
+
+            <div
+              className={`${styles.arrow} ${
+                isListOpen ? styles.arrowOpen : ""
+              }`}
+              onClick={() => setIsListOpen((o) => !o)}
+            >
+              ▾
+            </div>
+
+            {isListOpen && (
+              <div className={styles.jobList}>
+                {filteredJobs.length === 0 && (
+                  <div className={styles.noResults}>No results found</div>
+                )}
+
+                {filteredJobs.map((job) => (
+                  <div
+                    key={job.id}
+                    className={styles.jobOption}
+                    onMouseDown={(e) => {
+                      // prevent blurring the input before click
+                      e.preventDefault();
+                      handleSelectJob(job);
+                    }}
+                  >
+                    {job.number} - {job.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           <button
             className={styles.saveBtn}
-            onClick={onSave}
+            onClick={handleSaveClick}
             disabled={!selectedJobId}
           >
             Save &amp; Close

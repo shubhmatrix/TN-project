@@ -88,3 +88,66 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.jobSelect {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.jobInput {
+  width: 100%;
+  padding: 8px 28px 8px 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.jobInput:focus {
+  outline: none;
+  border-color: #5284ff;
+}
+
+.arrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  cursor: pointer;
+  color: #666;
+}
+
+.arrowOpen {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.jobList {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: 2px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 20;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.jobOption {
+  padding: 6px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.jobOption:hover {
+  background: #e6f0ff;
+}
+
+.noResults {
+  padding: 6px 8px;
+  font-size: 13px;
+  color: #888;
+}
