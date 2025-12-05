@@ -1,0 +1,24 @@
+.ag-theme-kds {
+  --ag-font-family: "Roboto", sans-serif;
+  --ag-font-size: 12px;
+  --ag-header-background-color: #ffffff;
+  --ag-odd-row-background-color: #f8f8f8;
+  --ag-row-border-color: #e0e0e0;
+  --ag-header-foreground-color: #555;
+  --ag-border-color: #d9d9d9;
+  --ag-selected-row-background-color: #e6f0ff;
+  --ag-row-hover-color: #f3f6ff;
+  --ag-grid-size: 5px;
+  --ag-list-item-height: 20px;
+  --ag-header-height: 28px;
+}
+
+.ag-theme-kds .ag-cell {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.ag-theme-kds .ag-header-cell-label {
+  font-size: 12px;
+  font-weight: 600;
+}
