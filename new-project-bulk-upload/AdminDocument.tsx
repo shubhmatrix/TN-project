@@ -3,14 +3,16 @@
 import React, { useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 
-// Enterprise modules
-import "ag-grid-enterprise";
+// Required module registration for AG Grid v34+
+import { ModuleRegistry } from "ag-grid-community";
+import { AllCommunityModule } from "ag-grid-community";
+ModuleRegistry.registerModules([AllCommunityModule]);
 
-// Themes + styles
+import "ag-grid-enterprise"; // Enables enterprise extras
+
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
-// Custom Quartz overrides
 import styles from "@/styles/DocumentAdministrationList.module.css";
 
 // Mock data
