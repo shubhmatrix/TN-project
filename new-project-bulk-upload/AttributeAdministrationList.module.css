@@ -1,0 +1,73 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px); /* adjust if navbar height differs */
+}
+
+/* Header row */
+.headerRow {
+  padding: 12px 24px 4px 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Grid container with scroll and border */
+.gridContainer {
+  flex: 1;
+  margin: 0 16px;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  overflow: auto;
+}
+
+/* Yellow toggle squares */
+.yellowToggleOn {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background-color: #ffd200;
+  border: 2px solid #ffd200;
+  box-sizing: border-box;
+}
+
+.yellowToggleOff {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 2px solid #cccccc;
+  background-color: transparent;
+  box-sizing: border-box;
+}
+
+/* Footer */
+.footer {
+  padding: 8px 24px 16px 24px;
+  display: flex;
+  gap: 8px;
+}
+
+.primaryButton {
+  background-color: #007bff;
+  border: none;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.secondaryButton {
+  background-color: #ffffff;
+  border: 1px solid #007bff;
+  color: #007bff;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
