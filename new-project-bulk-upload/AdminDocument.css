@@ -1,12 +1,12 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 64px); /* adjust if your navbar height differs */
+  height: calc(100vh - 60px);
 }
 
-/* title row, same style as your other admin pages */
+/* Title row */
 .headerRow {
-  padding: 12px 24px 4px 24px;
+  padding: 12px 24px;
 }
 
 .title {
@@ -15,60 +15,56 @@
   font-weight: 600;
 }
 
-/* grid area with scroll */
+/* AG Grid container with scroll */
 .gridContainer {
   flex: 1;
   margin: 0 16px;
+  border: 1px solid #ddd;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: auto;
 }
 
-/* footer buttons at bottom-left */
+/* Yellow On state */
+.yellowToggleOn {
+  width: 16px;
+  height: 16px;
+  background-color: #ffd200;
+  border-radius: 3px;
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #ffd200;
+}
+
+/* Grey Off state */
+.yellowToggleOff {
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Footer Action Buttons */
 .footer {
-  padding: 8px 24px 16px 24px;
+  padding: 8px 24px;
   display: flex;
   gap: 8px;
 }
 
 .primaryButton {
-  background: #1665e8;
-  border: 1px solid #1665e8;
-  color: #ffffff;
+  background: #007bff;
+  border: none;
+  padding: 6px 14px;
+  color: #fff;
   border-radius: 4px;
-  font-size: 12px;
-  padding: 5px 14px;
-  cursor: pointer;
 }
 
 .secondaryButton {
-  background: #ffffff;
-  border: 1px solid #c8c8c8;
-  color: #444;
+  background: #fff;
+  border: 1px solid #007bff;
+  padding: 6px 14px;
+  color: #007bff;
   border-radius: 4px;
-  font-size: 12px;
-  padding: 5px 14px;
-  cursor: pointer;
-}
-
-/* center boolean cells */
-.centerCell {
-  text-align: center;
-}
-
-/* yellow icon styles */
-.yellowToggleOn {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-  background-color: #ffd54f; /* yellow square */
-}
-
-.yellowToggleOff {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 2px;
-  border: 1px solid #d0d0d0;
-  background-color: #ffffff;
 }

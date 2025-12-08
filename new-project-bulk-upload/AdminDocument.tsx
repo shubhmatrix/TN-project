@@ -2,70 +2,59 @@
 
 import React, { useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import type { ColDef, ICellRendererParams } from "ag-grid-community";
 
+// Enterprise modules
+import "ag-grid-enterprise";
+
+// Themes + styles
 import "ag-grid-community/styles/ag-grid.css";
-// You are already using a custom theme; import its CSS here:
-import "@/styles/ag-theme-kds.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 
+// Custom Quartz overrides
 import styles from "@/styles/DocumentAdministrationList.module.css";
 
-type DocumentRow = {
-  id: number;
-  documentName: string;
-  vim: boolean;
-  rtf: boolean;
-  xml: boolean;
-  referenceDoc: boolean;
-  lastUpdated: string;
-  lastUpdatedBy: string;
-};
-
-const initialRows: DocumentRow[] = [
+// Mock data
+const initialRows = [
   {
-    id: 1,
-    documentName: "Shop Drawing",
+    document: "Shop Drawing",
     vim: true,
     rtf: true,
     xml: false,
-    referenceDoc: false,
+    referenceDoc: true,
     lastUpdated: "01/23/2025 10:58 AM",
     lastUpdatedBy: "jack.goldstein@kiewit.com",
   },
   {
-    id: 2,
-    documentName: "Structure Check Report",
+    document: "Structure Check Report",
     vim: false,
     rtf: true,
-    xml: true,
+    xml: false,
     referenceDoc: false,
     lastUpdated: "01/22/2025 02:15 PM",
     lastUpdatedBy: "jack.goldstein@kiewit.com",
   },
   {
-    id: 3,
-    documentName: "Structure Analysis Report",
-    vim: false,
+    document: "Structure Analysis Report",
+    vim: true,
     rtf: true,
-    xml: false,
-    referenceDoc: true,
+    xml: true,
+    referenceDoc: false,
     lastUpdated: "01/20/2025 09:10 AM",
     lastUpdatedBy: "jack.goldstein@kiewit.com",
   },
   {
-    id: 4,
-    documentName: "Input Echo",
+    document: "Input Echo",
     vim: false,
     rtf: false,
     xml: true,
-    referenceDoc: false,
+    referenceDoc: true,
     lastUpdated: "01/19/2025 05:44 PM",
     lastUpdatedBy: "jack.goldstein@kiewit.com",
   },
 ];
 
-// small yellow square renderer for boolean columns
-const YellowToggleRenderer: React.FC<ICellRendererParams> = (params) => {
+// Custom toggle yellow icon
+const ToggleRenderer = (params: any) => {
   const value = Boolean(params.value);
   return (
     <span
@@ -76,152 +65,70 @@ const YellowToggleRenderer: React.FC<ICellRendererParams> = (params) => {
   );
 };
 
-const DocumentAdministrationList: React.FC = () => {
-  const [rowData, setRowData] = useState<DocumentRow[]>(initialRows);
+export default function DocumentAdministrationList() {
+  const [rowData, setRowData] = useState(initialRows);
 
-  const columnDefs: ColDef[] = useMemo(
+  const columnDefs = useMemo(
     () => [
+      { field: "document", headerName: "Document", flex: 1 },
       {
-        headerName: "Document",
-        field: "documentName",
-        flex: 2,
-        sortable: true,
-        resizable: true,
-        filter: true,
-      },
-      {
-        headerName: "VIM",
         field: "vim",
-        width: 90,
-        sortable: false,
-        cellRenderer: YellowToggleRenderer,
-        cellClass: styles.centerCell,
+        headerName: "VIM",
+        cellRenderer: ToggleRenderer,
+        width: 80,
+        filter: false,
       },
       {
-        headerName: "RTF",
         field: "rtf",
-        width: 90,
-        sortable: false,
-        cellRenderer: YellowToggleRenderer,
-        cellClass: styles.centerCell,
+        headerName: "RTF",
+        cellRenderer: ToggleRenderer,
+        width: 80,
+        filter: false,
       },
       {
-        headerName: "XML",
         field: "xml",
-        width: 90,
-        sortable: false,
-        cellRenderer: YellowToggleRenderer,
-        cellClass: styles.centerCell,
+        headerName: "XML",
+        cellRenderer: ToggleRenderer,
+        width: 80,
+        filter: false,
       },
       {
-        headerName: "Reference Doc",
         field: "referenceDoc",
-        width: 130,
-        sortable: false,
-        cellRenderer: YellowToggleRenderer,
-        cellClass: styles.centerCell,
+        headerName: "Reference Doc",
+        cellRenderer: ToggleRenderer,
+        width: 120,
+        filter: false,
       },
-      {
-        headerName: "Last Updated",
-        field: "lastUpdated",
-        flex: 1,
-        sortable: true,
-        resizable: true,
-      },
-      {
-        headerName: "Last Updated By",
-        field: "lastUpdatedBy",
-        flex: 1.5,
-        sortable: true,
-        resizable: true,
-      },
+      { field: "lastUpdated", width: 160 },
+      { field: "lastUpdatedBy", width: 220 },
     ],
     []
   );
 
-  // Toggle yellow square when user clicks in these columns
-  const handleCellClicked = (params: any) => {
-    const colId = params.colDef.field;
-    if (!["vim", "rtf", "xml", "referenceDoc"].includes(colId!)) return;
-
-    const updated = rowData.map((row) =>
-      row.id === params.data.id
-        ? { ...row, [colId!]: !row[colId as keyof DocumentRow] }
-        : row
-    );
-    setRowData(updated);
-  };
-
-  const handleAddDocument = () => {
-    const nextId = rowData.length
-      ? Math.max(...rowData.map((r) => r.id)) + 1
-      : 1;
-
-    setRowData([
-      ...rowData,
-      {
-        id: nextId,
-        documentName: "New Document",
-        vim: false,
-        rtf: false,
-        xml: false,
-        referenceDoc: false,
-        lastUpdated: new Date().toLocaleString(),
-        lastUpdatedBy: "current.user@kiewit.com",
-      },
-    ]);
-  };
-
-  const handleSubmitChanges = () => {
-    // For now just log – later you can call API here
-    console.log("Submitting document admin changes:", rowData);
-    alert("Changes submitted (mock). Wire this to your API.");
-  };
-
   return (
     <div className={styles.wrapper}>
-      {/* Title row – matches your screenshot */}
       <div className={styles.headerRow}>
         <h2 className={styles.title}>Document Administration</h2>
       </div>
 
-      {/* Grid container */}
-      <div className={`${styles.gridContainer} ag-theme-kds`}>
+      <div className={`ag-theme-quartz ${styles.gridContainer}`}>
         <AgGridReact
           rowData={rowData}
           columnDefs={columnDefs}
-          rowHeight={28}
-          headerHeight={28}
-          animateRows={true}
-          suppressRowClickSelection={true}
-          onCellClicked={handleCellClicked}
+          animateRows
           defaultColDef={{
             sortable: true,
+            filter: true,
             resizable: true,
-            filter: false,
+            flex: 1,
           }}
         />
       </div>
 
-      {/* Footer buttons */}
       <div className={styles.footer}>
-        <button
-          type="button"
-          className={styles.secondaryButton}
-          onClick={handleAddDocument}
-        >
-          Add Document
-        </button>
-        <button
-          type="button"
-          className={styles.primaryButton}
-          onClick={handleSubmitChanges}
-        >
-          Submit Changes
-        </button>
+        <button className={styles.secondaryButton}>Add Document</button>
+        <button className={styles.primaryButton}>Submit Changes</button>
       </div>
     </div>
   );
-};
-
-export default DocumentAdministrationList;
+}
