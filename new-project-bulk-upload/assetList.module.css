@@ -1,128 +1,156 @@
-/* styles/AssetListEnhanced.module.css */
-
 .pageWrapper {
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 10px 14px;
-  height: 100vh;
+  height: calc(100vh - 80px); /* leaves space for navbar/header */
   box-sizing: border-box;
 }
 
-/* header with tabs and right-hand header buttons */
-.header {
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.pageHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.settingsBtn {
+  border: 1px solid #d7d7d7;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Tabs row (top line with tab buttons and actions) */
+.tabsRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
-.leftHeader {
+.tabsLeft {
   display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.title {
-  font-weight: 600;
-  font-size: 16px;
-}
-
-/* tab styles */
-.tabs {
-  display: inline-flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .tabBtn {
+  border: 1px solid #dcdcdc;
+  background: #fff;
   padding: 6px 10px;
   border-radius: 4px;
-  border: 1px solid #ddd;
-  background: #fff;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.activeTab {
-  background: #f2f6ff;
-  border-color: #c6d5ff;
-  color: #1146c6;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+.tabActive {
+  border-color: #2a6edb;
+  background: #edf4ff;
 }
 
-/* header right side actions */
-.headerActions {
+/* header action buttons */
+.tabsRight {
+  display: flex;
+  gap: 8px;
+}
+
+.headerAction {
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Grid container - fixed height so footer is always visible */
+.gridWrap {
+  flex: 1 1 auto;
+  min-height: 320px;
+  height: calc(100% - 120px); /* header + tabs + footer space */
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* bottom footer */
+.footer {
+  margin-top: 10px;
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
-.headerBtn {
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px solid #cfdffb;
-  background: #fff;
+.primaryButton {
+  background: #1d6ef4;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
   cursor: pointer;
+}
+
+.secondaryButton {
+  background: white;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d7d7d7;
+  cursor: pointer;
+}
+
+/* small verification badges */
+.verifiedBadge {
+  display: inline-block;
+  background: #e7f7ef;
+  color: #1b8a3e;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.notVerifiedBadge {
+  display: inline-block;
+  background: #fff6e6;
+  color: #c08a00;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* fine tune ag-grid visual spacing with our theme */
+.ag-theme-quartz .ag-root-wrapper {
   font-size: 13px;
 }
 
-.headerBtnActive {
-  background: #eef6ff;
-  border-color: #a6c6ff;
+.ag-theme-quartz .ag-header-cell-label .ag-header-cell-text {
+  font-weight: 600;
+  color: #333;
 }
 
-/* grid container area (fixed height so footer stays visible) */
-.gridContainer {
-  height: calc(100vh - 190px); /* tweak to match your app header/footer size */
-  width: 100%;
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
-  overflow: hidden;
-  box-sizing: border-box;
+/* action icons area spacing */
+.ag-theme-quartz .ag-cell {
+  padding: 6px 8px;
 }
 
-/* footer */
-.footer {
-  display: flex;
-  justify-content: flex-start;
-  padding-top: 6px;
-}
-
-.secondaryBtn {
-  padding: 6px 12px;
-  border-radius: 4px;
-  border: 1px solid #cfdffb;
-  background: white;
-  color: #1842a7;
-  cursor: pointer;
-}
-
-/* small yellow toggle styles (for cellRenderer html) */
-/* These are used by the cellRenderer HTML returning small <div class="__kds_yellow_on"> etc */
-.__kds_yellow_on, .__kds_yellow_off {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  vertical-align: middle;
-}
-
-/* turned on - yellow */
-.__kds_yellow_on {
-  background: #ffd500;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-/* turned off - empty box */
-.__kds_yellow_off {
+/* make the pinned columns visually separated */
+.ag-theme-quartz .ag-pinned-left-cols-container,
+.ag-theme-quartz .ag-pinned-right-cols-container {
   background: #fff;
-  border: 1px solid #ddd;
 }
 
-/* small action button style in cells (using return html in cellRenderer) */
-.kds-action-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
+/* tiny responsiveness */
+@media (max-width: 900px) {
+  .tabBtn, .headerAction {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
 }
