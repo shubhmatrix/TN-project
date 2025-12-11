@@ -1,6 +1,6 @@
 // /src/data/assetListMockData.ts
 
-export const assetListMockData = [
+const assetListMockData = [
   {
     assetTag: "PC-001",
     verificationStatus: "Verified",
@@ -95,3 +95,10 @@ export const assetListMockData = [
     action: null,
   },
 ];
+
+
+// Generate 15 rows
+export const assetListMockData = Array.from({ length: 15 }, (_, i) => ({
+  ...baseRow,
+  assetTag: `PC-${String(i + 1).padStart(3, "0")}`, // PC-001, PC-002, ... PC-015
+}));
