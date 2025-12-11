@@ -1,0 +1,128 @@
+/* styles/AssetListEnhanced.module.css */
+
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 14px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+/* header with tabs and right-hand header buttons */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leftHeader {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* tab styles */
+.tabs {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.tabBtn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.activeTab {
+  background: #f2f6ff;
+  border-color: #c6d5ff;
+  color: #1146c6;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* header right side actions */
+.headerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.headerBtn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #cfdffb;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.headerBtnActive {
+  background: #eef6ff;
+  border-color: #a6c6ff;
+}
+
+/* grid container area (fixed height so footer stays visible) */
+.gridContainer {
+  height: calc(100vh - 190px); /* tweak to match your app header/footer size */
+  width: 100%;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* footer */
+.footer {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 6px;
+}
+
+.secondaryBtn {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid #cfdffb;
+  background: white;
+  color: #1842a7;
+  cursor: pointer;
+}
+
+/* small yellow toggle styles (for cellRenderer html) */
+/* These are used by the cellRenderer HTML returning small <div class="__kds_yellow_on"> etc */
+.__kds_yellow_on, .__kds_yellow_off {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* turned on - yellow */
+.__kds_yellow_on {
+  background: #ffd500;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* turned off - empty box */
+.__kds_yellow_off {
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+/* small action button style in cells (using return html in cellRenderer) */
+.kds-action-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
