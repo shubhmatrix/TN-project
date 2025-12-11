@@ -1,0 +1,216 @@
+export const columnDefs = (enableEditing: boolean): ColDef[] => [
+  // PINNED LEFT
+  {
+    headerName: "Asset Tag",
+    field: "assetTag",
+    pinned: "left",
+    lockPinned: true,
+    minWidth: 150,
+    rowDrag: true,
+  },
+  {
+    headerName: "Verification Status",
+    field: "verificationStatus",
+    pinned: "left",
+    lockPinned: true,
+    minWidth: 160,
+  },
+
+  // MAIN COLUMNS
+  { headerName: "Equipment", field: "equipment", editable: enableEditing, minWidth: 150 },
+  { headerName: "Equipment Type", field: "equipmentType", editable: enableEditing, minWidth: 200 },
+  { headerName: "Equipment Name", field: "equipmentName", editable: enableEditing, minWidth: 200 },
+  { headerName: "Service", field: "service", editable: enableEditing, minWidth: 150 },
+
+  { headerName: "Design Flow", field: "designFlow", editable: enableEditing, width: 140 },
+  { headerName: "Design Flow Units", field: "designFlowUnits", editable: enableEditing, width: 140 },
+
+  { headerName: "Differential Head", field: "differentialHead", editable: enableEditing, width: 150 },
+  { headerName: "Differential Head Units", field: "differentialHeadUnits", editable: enableEditing, width: 160 },
+
+  { headerName: "Suction Pressure", field: "suctionPressure", editable: enableEditing, width: 150 },
+  { headerName: "Suction Pressure Units", field: "suctionPressureUnits", editable: enableEditing, width: 160 },
+
+  { headerName: "Discharge Pressure", field: "dischargePressure", editable: enableEditing, width: 160 },
+  { headerName: "Discharge Pressure Units", field: "dischargePressureUnits", editable: enableEditing, width: 180 },
+
+  { headerName: "Differential Pressure", field: "differentialPressure", editable: enableEditing, width: 160 },
+  { headerName: "Differential Pressure Units", field: "differentialPressureUnits", editable: enableEditing, width: 200 },
+
+  { headerName: "Rated Operating Temp.", field: "ratedOperatingTemp", editable: enableEditing, width: 180 },
+  { headerName: "Rated Operating Temp. Units", field: "ratedOperatingTempUnits", editable: enableEditing, width: 210 },
+
+  { headerName: "Operating Fluid", field: "operatingFluid", editable: enableEditing, minWidth: 150 },
+  { headerName: "Specific Gravity", field: "specificGravity", editable: enableEditing, width: 150 },
+
+  { headerName: "Viscosity", field: "viscosity", editable: enableEditing, width: 120 },
+  { headerName: "Viscosity Units", field: "viscosityUnits", editable: enableEditing, width: 140 },
+
+  { headerName: "Vapour Pressure", field: "vapourPressure", editable: enableEditing, width: 150 },
+  { headerName: "Vapour Pressure Unit", field: "vapourPressureUnit", editable: enableEditing, width: 170 },
+
+  { headerName: "Max. Diff. Head at Rated Impeller", field: "maxDiffHeadRatedImpeller", editable: enableEditing, width: 240 },
+  { headerName: "Max. Diff. Head Units", field: "maxDiffHeadRatedImpellerUnits", editable: enableEditing, width: 200 },
+
+  { headerName: "Head Rise to Shutoff %", field: "headRiseToShutoff", editable: enableEditing, width: 180 },
+
+  { headerName: "Suction Specific Speed (Nss)", field: "suctionSpecificSpeed", editable: enableEditing, width: 200 },
+
+  { headerName: "MCSF Units", field: "mcsfUnits", editable: enableEditing, width: 150 },
+
+  { headerName: "NPSHR at Rated Flow", field: "npshrRatedFlow", editable: enableEditing, width: 170 },
+  { headerName: "NPSHR Units", field: "npshrRatedFlowUnits", editable: enableEditing, width: 150 },
+
+  { headerName: "Hydraulic Power", field: "hydraulicPower", editable: enableEditing, width: 150 },
+  { headerName: "Hydraulic Power Units", field: "hydraulicPowerUnits", editable: enableEditing, width: 170 },
+
+  { headerName: "Brake Power (BHP)", field: "brakePower", editable: enableEditing, width: 150 },
+  { headerName: "Brake Power Units", field: "brakePowerUnits", editable: enableEditing, width: 160 },
+
+  { headerName: "Driver Power Rating", field: "driverPowerRating", editable: enableEditing, width: 180 },
+  { headerName: "Driver Power Rating Units", field: "driverPowerRatingUnits", editable: enableEditing, width: 200 },
+
+  { headerName: "Rated Speed", field: "ratedSpeed", editable: enableEditing, width: 140 },
+  { headerName: "Rated Speed Units", field: "ratedSpeedUnits", editable: enableEditing, width: 160 },
+
+  { headerName: "Driver Type", field: "driverType", editable: enableEditing, width: 150 },
+  { headerName: "Driver Volt / Phase / Hz", field: "driverVoltPhaseHz", editable: enableEditing, minWidth: 200 },
+
+  { headerName: "Casing Design Pressure (MAWP)", field: "casingDesignPressure", editable: enableEditing, width: 220 },
+  { headerName: "MAWP Units", field: "casingDesignPressureUnits", editable: enableEditing, width: 150 },
+
+  { headerName: "Min Design Metal Temp. (MDMT)", field: "mdmt", editable: enableEditing, width: 220 },
+  { headerName: "Max Design Temp.", field: "maxDesignTemp", editable: enableEditing, width: 170 },
+  { headerName: "Design Temp Units", field: "designTempUnits", editable: enableEditing, width: 150 },
+
+  { headerName: "Material", field: "material", editable: enableEditing, width: 150 },
+
+  { headerName: "Seal Type / Arrangement", field: "sealTypeArrangement", editable: enableEditing, width: 210 },
+  { headerName: "Seal Plan", field: "sealPlan", editable: enableEditing, width: 140 },
+
+  { headerName: "Lift Weight", field: "liftWeight", editable: enableEditing, width: 150 },
+  { headerName: "Lift Weight Units", field: "liftWeightUnits", editable: enableEditing, width: 170 },
+
+  { headerName: "Skid Length", field: "skidLength", editable: enableEditing, width: 140 },
+  { headerName: "Skid Width", field: "skidWidth", editable: enableEditing, width: 140 },
+  { headerName: "Skid Height", field: "skidHeight", editable: enableEditing, width: 140 },
+  { headerName: "Skid Dimensions Units", field: "skidDimensionsUnits", editable: enableEditing, width: 180 },
+
+  { headerName: "Aux. Equipment Skids", field: "auxEquipmentSkids", editable: enableEditing, width: 200 },
+  { headerName: "Controls & Instrumentation", field: "controlsInstrumentation", editable: enableEditing, width: 240 },
+
+  { headerName: "Notes", field: "notes", editable: enableEditing, minWidth: 250 },
+
+  { headerName: "CRM Job", field: "crmJob", editable: enableEditing, width: 140 },
+  { headerName: "Selected Vendor(s)", field: "selectedVendors", editable: enableEditing, minWidth: 200 },
+  { headerName: "Number of Documents", field: "documentsCount", editable: enableEditing, width: 180 },
+
+  // PINNED RIGHT
+  {
+    headerName: "Action",
+    field: "action",
+    pinned: "right",
+    lockPinned: true,
+    minWidth: 140,
+    cellRenderer: "actionRenderer",
+    sortable: false,
+    filter: false
+  }
+];
+
+
+export const rowData = [
+  {
+    assetTag: "PC-001",
+    verificationStatus: "Verified",
+
+    equipment: "Pump",
+    equipmentType: "Centrifugal Pump",
+    equipmentName: "Main Process Pump",
+    service: "Cooling Water",
+
+    designFlow: 850,
+    designFlowUnits: "gpm",
+
+    differentialHead: 45,
+    differentialHeadUnits: "m",
+
+    suctionPressure: 2.1,
+    suctionPressureUnits: "bar",
+
+    dischargePressure: 7.5,
+    dischargePressureUnits: "bar",
+
+    differentialPressure: 5.4,
+    differentialPressureUnits: "bar",
+
+    ratedOperatingTemp: 120,
+    ratedOperatingTempUnits: "°C",
+
+    operatingFluid: "Water",
+    specificGravity: 1.0,
+
+    viscosity: 1.2,
+    viscosityUnits: "cP",
+
+    vapourPressure: 0.3,
+    vapourPressureUnit: "bar",
+
+    maxDiffHeadRatedImpeller: 50,
+    maxDiffHeadRatedImpellerUnits: "m",
+
+    headRiseToShutoff: 10,
+    suctionSpecificSpeed: 8500,
+
+    mcsfUnits: "gpm",
+
+    npshrRatedFlow: 12,
+    npshrRatedFlowUnits: "ft",
+
+    hydraulicPower: 5.4,
+    hydraulicPowerUnits: "kW",
+
+    brakePower: 7.2,
+    brakePowerUnits: "HP",
+
+    driverPowerRating: 10,
+    driverPowerRatingUnits: "HP",
+
+    ratedSpeed: 1800,
+    ratedSpeedUnits: "RPM",
+
+    driverType: "Electric Motor",
+    driverVoltPhaseHz: "480V / 3PH / 60Hz",
+
+    casingDesignPressure: 20,
+    casingDesignPressureUnits: "bar",
+
+    mdmt: -10,
+    maxDesignTemp: 150,
+    designTempUnits: "°C",
+
+    material: "Carbon Steel",
+
+    sealTypeArrangement: "Mechanical Seal",
+    sealPlan: "API Plan 11",
+
+    liftWeight: 450,
+    liftWeightUnits: "kg",
+
+    skidLength: 2.5,
+    skidWidth: 1.1,
+    skidHeight: 1.4,
+    skidDimensionsUnits: "m",
+
+    auxEquipmentSkids: "Included",
+    controlsInstrumentation: "Std Instrumentation",
+
+    notes: "Installed 2024, no issues reported.",
+
+    crmJob: "2004528",
+    selectedVendors: "Vendor A",
+    documentsCount: 8,
+
+    action: null
+  }
+];
