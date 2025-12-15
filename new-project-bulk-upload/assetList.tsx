@@ -71,38 +71,53 @@ const mockRows = [
 ];
 
 const ActionCellRenderer: React.FC<any> = (props) => {
-  const styleBtn: React.CSSProperties = {
-    border: "none",
-    background: "transparent",
-    cursor: "pointer",
-    marginLeft: 6,
-  };
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+    <div className={styles.actionCell}>
+      {/* Verify */}
       <button
-        title="View"
-        style={styleBtn}
-        onClick={() => alert(`View ${props.data?.assetTag || "row"}`)}
+        className={styles.iconBtn}
+        title="Verify"
+        onClick={() => alert(`Verify ${props.data?.assetTag}`)}
       >
-        🔍
+        <svg width="14" height="14" viewBox="0 0 16 16">
+          <path
+            d="M6.5 11.2L3.3 8l1.1-1.1 2.1 2.1 5-5L12.6 5z"
+            fill="currentColor"
+          />
+        </svg>
       </button>
+
+      {/* View Document */}
       <button
-        title="Edit"
-        style={styleBtn}
-        onClick={() => alert(`Edit ${props.data?.assetTag || "row"}`)}
+        className={styles.iconBtn}
+        title="View Document"
+        onClick={() => alert(`View ${props.data?.assetTag}`)}
       >
-        ✏️
+        <svg width="14" height="14" viewBox="0 0 16 16">
+          <path
+            d="M3 1h6l4 4v10H3V1zm6 1.5V6h3.5L9 2.5z"
+            fill="currentColor"
+          />
+        </svg>
       </button>
+
+      {/* Delete */}
       <button
+        className={`${styles.iconBtn} ${styles.danger}`}
         title="Delete"
-        style={styleBtn}
-        onClick={() => alert(`Delete ${props.data?.assetTag || "row"}`)}
+        onClick={() => alert(`Delete ${props.data?.assetTag}`)}
       >
-        🗑
+        <svg width="14" height="14" viewBox="0 0 16 16">
+          <path
+            d="M6 1h4l1 1h4v2H1V2h4l1-1zm-1 5h2v7H5V6zm4 0h2v7H9V6z"
+            fill="currentColor"
+          />
+        </svg>
       </button>
     </div>
   );
 };
+
 
 const VerificationRenderer: React.FC<any> = (props) => {
   const val = props.value;

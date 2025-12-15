@@ -147,6 +147,46 @@
   background: #fff;
 }
 
+/* Actions column container */
+.actionCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+}
+
+/* Icon buttons */
+.iconBtn {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #d6d6d6;
+  background: #ffffff;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #4a4a4a;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.iconBtn:hover {
+  background-color: #f3f3f3;
+  border-color: #bdbdbd;
+}
+
+/* Delete button */
+.danger {
+  color: #6b6b6b;
+}
+
+.danger:hover {
+  background-color: #fbeaea;
+  border-color: #e0a0a0;
+}
+
+
 /* tiny responsiveness */
 @media (max-width: 900px) {
   .tabBtn, .headerAction {
