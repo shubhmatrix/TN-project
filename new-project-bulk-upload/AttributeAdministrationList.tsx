@@ -2,7 +2,11 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { ModuleRegistry, CellClickedEvent, ColDef } from "ag-grid-community";
+import {
+  ModuleRegistry,
+  CellClickedEvent,
+  ColDef,
+} from "ag-grid-community";
 import { AllCommunityModule } from "ag-grid-community";
 import "ag-grid-enterprise";
 
@@ -11,13 +15,16 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import "@/styles/Ag-theme-kds.module.css";
 
 import styles from "@/styles/AttributeAdministrationList.module.css";
-import { getAttributesByDocumentType } from "@/services/adminAttributes.api";
+import {
+  getAttributesByDocumentType,
+  submitAttributes,
+} from "@/services/adminAttributes.api";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 /* -------------------- Types -------------------- */
 type AttributeRow = {
-  id: number;
+  id: number | null;
   columnName: string;
   displayName: string;
   dataType: string;
@@ -33,6 +40,8 @@ type AttributeRow = {
 };
 
 /* -------------------- Constants -------------------- */
+const DOCUMENT_TYPE_ID = 1;
+
 const UOM_VALUES = ["", "psi", "kPa", "bar", "ft", "m", "C", "F", "%"];
 
 const TOGGLE_FIELDS = new Set([
@@ -43,30 +52,52 @@ const TOGGLE_FIELDS = new Set([
   "vlmPrompt",
 ]);
 
+/* -------------------- Toggle Renderer -------------------- */
 const ToggleRenderer: React.FC<{ value: boolean }> = ({ value }) => (
   <span
     className={value ? styles.yellowToggleOn : styles.yellowToggleOff}
   />
 );
 
-/* -------------------- API → Grid Mapper -------------------- */
-const mapApiAttributesToRows = (attributes: any[]): AttributeRow[] => {
-  return attributes.map((attr) => ({
-    id: attr.attribute_id,
+/* -------------------- API → UI Mapper -------------------- */
+const mapApiAttributesToRows = (attributes: any[]): AttributeRow[] =>
+  attributes.map((attr: any) => ({
+    id: attr.attribute_id ?? null,
     columnName: attr.code,
     displayName: attr.name,
-    dataType: attr.data_type ?? "String",
+    dataType: attr.data_type ?? "string",
     uom: attr.unit ?? "",
     active: true,
     required: Boolean(attr.is_required),
     visible: Boolean(attr.is_displayed_input),
-    llmPrompt: Boolean(attr.is_prediction_output),
-    vlmPrompt: false, // backend not providing yet
+    llmPrompt: Boolean(attr.is_prediction_input),
+    vlmPrompt: Boolean(attr.is_prediction_output),
     notes: attr.description ?? "",
-    lastUpdated: attr.updated_at,
+    lastUpdated: attr.updated_at ?? "",
     lastUpdatedBy: "",
   }));
-};
+
+/* -------------------- UI → Submit Payload Mapper -------------------- */
+const mapRowsToSubmitPayload = (
+  rows: AttributeRow[],
+  documentTypeId: number
+) => ({
+  document_type_id: documentTypeId,
+  attributes: rows.map((row, index) => ({
+    attribute_id: row.id,
+    name: row.displayName,
+    code: row.columnName,
+    description: row.notes,
+    data_type: row.dataType,
+    unit: row.uom || null,
+    unit_of_measure: row.uom || null,
+    display_order: index + 1,
+    is_required: row.required,
+    is_displayed_in_asset_list: row.visible,
+    is_prediction_input: row.llmPrompt,
+    is_prediction_output: row.vlmPrompt,
+  })),
+});
 
 /* -------------------- Component -------------------- */
 const AttributeAdministrationList: React.FC = () => {
@@ -78,7 +109,7 @@ const AttributeAdministrationList: React.FC = () => {
     const loadAttributes = async () => {
       try {
         setLoading(true);
-        const res = await getAttributesByDocumentType(1); // document_type_id
+        const res = await getAttributesByDocumentType(DOCUMENT_TYPE_ID);
         setRowData(mapApiAttributesToRows(res.data.attributes));
       } catch (error) {
         console.error("Failed to load attributes", error);
@@ -93,8 +124,19 @@ const AttributeAdministrationList: React.FC = () => {
   /* -------- Grid Columns -------- */
   const columnDefs = useMemo<ColDef[]>(
     () => [
-      { field: "columnName", headerName: "Column Name", rowDrag: true, flex: 1.4, editable: true },
-      { field: "displayName", headerName: "Display Name", flex: 1.6, editable: true },
+      {
+        field: "columnName",
+        headerName: "Column Name",
+        rowDrag: true,
+        flex: 1.4,
+        editable: true,
+      },
+      {
+        field: "displayName",
+        headerName: "Display Name",
+        flex: 1.6,
+        editable: true,
+      },
       {
         field: "dataType",
         headerName: "Datatype",
@@ -102,7 +144,7 @@ const AttributeAdministrationList: React.FC = () => {
         editable: true,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: {
-          values: ["String", "Float", "Integer", "Boolean", "Date"],
+          values: ["string", "number", "boolean", "date"],
         },
       },
       {
@@ -150,14 +192,27 @@ const AttributeAdministrationList: React.FC = () => {
         editable: false,
         cellRenderer: (p) => <ToggleRenderer value={p.value} />,
       },
-      { field: "notes", headerName: "Notes", flex: 1.5, editable: true },
-      { field: "lastUpdated", headerName: "Last Updated", width: 170 },
-      { field: "lastUpdatedBy", headerName: "Last Updated By", width: 220 },
+      {
+        field: "notes",
+        headerName: "Notes",
+        flex: 1.5,
+        editable: true,
+      },
+      {
+        field: "lastUpdated",
+        headerName: "Last Updated",
+        width: 170,
+      },
+      {
+        field: "lastUpdatedBy",
+        headerName: "Last Updated By",
+        width: 220,
+      },
     ],
     []
   );
 
-  /* -------- Toggle Click -------- */
+  /* -------- Toggle Handling -------- */
   const handleCellClicked = (event: CellClickedEvent) => {
     const field = event.colDef.field as keyof AttributeRow;
     if (!TOGGLE_FIELDS.has(field)) return;
@@ -176,15 +231,15 @@ const AttributeAdministrationList: React.FC = () => {
     });
   };
 
-  /* -------- Add Row -------- */
+  /* -------- Add Attribute -------- */
   const handleAddAttribute = () => {
     setRowData((prev) => [
       ...prev,
       {
-        id: Date.now(),
+        id: null,
         columnName: "",
         displayName: "",
-        dataType: "String",
+        dataType: "string",
         uom: "",
         active: true,
         required: false,
@@ -198,9 +253,23 @@ const AttributeAdministrationList: React.FC = () => {
     ]);
   };
 
-  /* -------- Submit (NEXT API) -------- */
-  const handleSubmitChanges = () => {
-    console.log("Submitting attribute changes:", rowData);
+  /* -------- Submit -------- */
+  const handleSubmitChanges = async () => {
+    try {
+      const payload = mapRowsToSubmitPayload(
+        rowData,
+        DOCUMENT_TYPE_ID
+      );
+
+      console.log("Submitting payload:", payload);
+
+      await submitAttributes(payload);
+
+      alert("Attributes saved successfully");
+    } catch (error) {
+      console.error("Submit failed", error);
+      alert("Failed to save attributes");
+    }
   };
 
   return (
