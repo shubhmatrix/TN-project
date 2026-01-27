@@ -3,55 +3,99 @@
 import { useEffect, useMemo, useState } from "react";
 import styles from "../styles/SettingsBar.module.css";
 
+/* -------------------- Types -------------------- */
 type JobOption = {
   id: string;
   number: string;
   name: string;
 };
 
+type DocumentTypeOption = {
+  id: string;
+  name: string;
+};
+
 interface SettingsBarProps {
   isOpen: boolean;
-  selectedJobId: string;
-  jobOptions: JobOption[];
-  onJobChange: (jobId: string) => void;
+
+  /* Mode selector */
+  mode?: "job" | "documentType"; // NEW
+
+  /* Job props (existing) */
+  selectedJobId?: string;
+  jobOptions?: JobOption[];
+  onJobChange?: (jobId: string) => void;
+
+  /* Document type props (NEW) */
+  selectedDocumentTypeId?: string;
+  documentTypes?: DocumentTypeOption[];
+  onDocumentTypeChange?: (id: string) => void;
+
   onSave: () => void;
   onClose: () => void;
 }
 
 export default function SettingsBar({
   isOpen,
+  mode = "job",
+
   selectedJobId,
-  jobOptions,
+  jobOptions = [],
   onJobChange,
+
+  selectedDocumentTypeId,
+  documentTypes = [],
+  onDocumentTypeChange,
+
   onSave,
   onClose,
 }: SettingsBarProps) {
-  // local search state
   const [query, setQuery] = useState("");
   const [isListOpen, setIsListOpen] = useState(false);
 
-  // synchronize query with selected job when drawer opens
+  /* Sync input when drawer opens */
   useEffect(() => {
     if (!isOpen) return;
-    const j = jobOptions.find((job) => job.id === selectedJobId);
-    if (j) {
-      setQuery(`${j.number} - ${j.name}`);
+
+    if (mode === "job") {
+      const j = jobOptions.find((job) => job.id === selectedJobId);
+      setQuery(j ? `${j.number} - ${j.name}` : "");
     } else {
-      setQuery("");
+      const d = documentTypes.find(
+        (dt) => dt.id === selectedDocumentTypeId
+      );
+      setQuery(d ? d.name : "");
     }
+
     setIsListOpen(false);
-  }, [isOpen, selectedJobId, jobOptions]);
+  }, [
+    isOpen,
+    mode,
+    selectedJobId,
+    selectedDocumentTypeId,
+    jobOptions,
+    documentTypes,
+  ]);
 
-  // filter jobs by query
-  const filteredJobs = useMemo(() => {
-    if (!query) return jobOptions;
+  /* Filter list */
+  const filteredOptions = useMemo(() => {
+    if (!query) {
+      return mode === "job" ? jobOptions : documentTypes;
+    }
+
     const q = query.toLowerCase();
-    return jobOptions.filter((job) =>
-      `${job.number} - ${job.name}`.toLowerCase().includes(q)
+    return (mode === "job" ? jobOptions : documentTypes).filter(
+      (item: any) =>
+        (mode === "job"
+          ? `${item.number} - ${item.name}`
+          : item.name
+        )
+          .toLowerCase()
+          .includes(q)
     );
-  }, [query, jobOptions]);
+  }, [query, mode, jobOptions, documentTypes]);
 
-  // ESC closes sidebar
+  /* ESC closes */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -60,16 +104,21 @@ export default function SettingsBar({
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  const handleSelectJob = (job: JobOption) => {
-    onJobChange(job.id);
-    setQuery(`${job.number} - ${job.name}`);
+  const handleSelect = (item: any) => {
+    if (mode === "job") {
+      onJobChange?.(item.id);
+      setQuery(`${item.number} - ${item.name}`);
+    } else {
+      onDocumentTypeChange?.(item.id);
+      setQuery(item.name);
+    }
     setIsListOpen(false);
   };
 
-  const handleSaveClick = () => {
-    if (!selectedJobId) return;
-    onSave();
-  };
+  const isSaveDisabled =
+    mode === "job"
+      ? !selectedJobId
+      : !selectedDocumentTypeId;
 
   return (
     <>
@@ -84,15 +133,19 @@ export default function SettingsBar({
         </div>
 
         <div className={styles.content}>
-          {/* Job label */}
-          <label className={styles.label}>Job</label>
+          <label className={styles.label}>
+            {mode === "job" ? "Job" : "Document Type"}
+          </label>
 
-          {/* Searchable dropdown */}
           <div className={styles.jobSelect}>
             <input
               className={styles.jobInput}
               value={query}
-              placeholder="Select Job"
+              placeholder={
+                mode === "job"
+                  ? "Select Job"
+                  : "Select Document Type"
+              }
               onChange={(e) => {
                 setQuery(e.target.value);
                 setIsListOpen(true);
@@ -111,21 +164,24 @@ export default function SettingsBar({
 
             {isListOpen && (
               <div className={styles.jobList}>
-                {filteredJobs.length === 0 && (
-                  <div className={styles.noResults}>No results found</div>
+                {filteredOptions.length === 0 && (
+                  <div className={styles.noResults}>
+                    No results found
+                  </div>
                 )}
 
-                {filteredJobs.map((job) => (
+                {filteredOptions.map((item: any) => (
                   <div
-                    key={job.id}
+                    key={item.id}
                     className={styles.jobOption}
                     onMouseDown={(e) => {
-                      // prevent blurring the input before click
                       e.preventDefault();
-                      handleSelectJob(job);
+                      handleSelect(item);
                     }}
                   >
-                    {job.number} - {job.name}
+                    {mode === "job"
+                      ? `${item.number} - ${item.name}`
+                      : item.name}
                   </div>
                 ))}
               </div>
@@ -134,8 +190,8 @@ export default function SettingsBar({
 
           <button
             className={styles.saveBtn}
-            onClick={handleSaveClick}
-            disabled={!selectedJobId}
+            onClick={onSave}
+            disabled={isSaveDisabled}
           >
             Save &amp; Close
           </button>
