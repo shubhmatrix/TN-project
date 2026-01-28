@@ -1,1 +1,1 @@
-Thanks for flagging this, Eric. package.json was accidentally ignored due to a .gitignore rule. I’ve fixed it and will push the file shortly so the app can be built and run locally (npm install → npm run dev).
+Thanks for checking, Eric. package.json is getting ignored due to a global .gitignore rule, not the frontend one. I’m updating it and will push package.json shortly so the app can be built and run locally.
