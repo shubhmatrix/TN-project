@@ -1,3 +1,1 @@
-Hi Cole,
-Quick update from my side — I’ve completed the frontend integration for the Document Upload module, including pole structure selection, document type retrieval, and file-level state handling. I’m now working through the remaining upload and admin attribute integrations so the frontend is fully aligned with the backend APIs.
-Once the deployment path is unblocked, the pieces are in place on the UI side to validate end-to-end behavior and iterate quickly based on feedback. Happy to walk through anything specific if helpful.
+Thanks for flagging this, Eric. package.json was accidentally ignored due to a .gitignore rule. I’ve fixed it and will push the file shortly so the app can be built and run locally (npm install → npm run dev).
