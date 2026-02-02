@@ -22,162 +22,211 @@ export default function Sidebar() {
  
   return (
     <aside
-      className={`sidebar transition-all duration-300 ${
-        collapsed ? "w-[120px]" : "w-[280px]"
-      }`}
+      className={`sticky top-0 h-screen flex flex-col border-r transition-all duration-300
+      ${collapsed ? "w-[88px]" : "w-[280px]"}`}
     >
-      {/* ================= HEADER ================= */}
-      <div className="sidebar-top px-4 py-4">
-        <div className="sidebar-header flex items-center relative group">
-          {/* TEXT (only expanded) */}
-          {!collapsed && (
-            <div className="sidebar-title flex flex-col leading-tight">
-              <span>KPD Structure</span>
-              <span>Database</span>
-            </div>
-          )}
+{/* ================= HEADER ================= */}
+<div className="border-b border-gray-200">
  
-          {/* LOGO + COLLAPSE */}
-          <div
-            className={`relative w-[120px] h-[48px] flex items-center justify-center
-            ${collapsed ? "ml-0" : "ml-auto"}`}
-          >
-            {/* LOGO */}
-            <Image
-              src="/images/kds-lightgray-trans.png"
-              alt="KDS Logo"
-              width={120}
-              height={48}
-              className={`transition-opacity duration-300 ${
-                collapsed
-                  ? "opacity-100 group-hover:opacity-0"
-                  : "opacity-100"
-              }`}
-            />
- 
-            {/* EXPAND ICON (hover only when collapsed) */}
-            {collapsed && (
-              <button
-                onClick={() => setCollapsed(false)}
-                className="absolute inset-0 flex items-center justify-center
-                           opacity-0 group-hover:opacity-100
-                           transition-opacity duration-300"
-              >
-                <FontAwesomeIcon icon={faColumns} size="lg" />
-              </button>
-            )}
- 
-            {/* COLLAPSE ICON (expanded mode) */}
-            {!collapsed && (
-              <button
-                onClick={() => setCollapsed(true)}
-                className="absolute -right-10 w-8 h-8 flex items-center justify-center
-                           rounded hover:bg-gray-100"
-              >
-                <FontAwesomeIcon icon={faColumns} size="lg" />
-              </button>
-            )}
-          </div>
-        </div>
+  {/* EXPANDED HEADER */}
+  {!collapsed && (
+    <div className="flex items-center justify-between px-6 py-4 min-h-[80px] -mt-1">
+      <div className="leading-tight">
+        <div className="text-lg font-medium">KPD Structure</div>
+        <div className="text-lg font-medium">Database</div>
       </div>
  
+      <div className="relative w-[80px] h-[80px] flex-shrink-0">
+  <Image
+    src="/images/kds-lightgray-trans.png"
+    alt="KDS Logo"
+    fill
+    className="object-contain scale-110"
+    priority
+  />
+</div>
+ 
+      <button onClick={() => setCollapsed(true)}>
+        <FontAwesomeIcon icon={faColumns} />
+      </button>
+    </div>
+  )}
+ 
+  {/* COLLAPSED HEADER */}
+  {collapsed && (
+    <div className="flex justify-center py-4 group relative">
+ 
+<div className="relative w-[72px] h-[72px]
+                    transition-opacity duration-200
+                    group-hover:opacity-0">
+  <Image
+    src="/images/kds-lightgray-trans.png"
+    alt="KDS Logo"
+    fill
+    className="object-contain scale-110"
+    priority
+  />
+</div>
+ 
+       <button
+      onClick={() => setCollapsed(false)}
+      className="absolute inset-0 flex items-center justify-center
+                 opacity-0 group-hover:opacity-100
+                 transition-opacity duration-200"
+    >
+      <FontAwesomeIcon icon={faColumns} size="lg" />
+    </button>
+ 
+    </div>
+  )}
+</div>
+ 
       {/* ================= NAV ================= */}
-      <nav className="sidebar-nav">
-        <Link href="/" className="sidebar-item flex items-center">
-          <FontAwesomeIcon icon={faHouse} className="mr-2" />
-          {!collapsed && "Home"}
+      <nav className="flex-1 py-4">
+       
+        {/* HOME */}
+        <Link
+          href="/"
+          className={`sidebar-item flex items-center w-full px-6 py-3
+          ${collapsed ? "justify-center" : ""}`}
+        >
+          <FontAwesomeIcon icon={faHouse} />
+          {!collapsed && <span className="ml-3">Home</span>}
         </Link>
  
-        {/* Asset Management */}
+        {/* ASSET MANAGEMENT */}
         <div
-          className="sidebar-item flex items-center justify-between pr-3 cursor-pointer"
+          className={`sidebar-item flex items-center w-full px-6 py-3 cursor-pointer
+          ${collapsed ? "justify-center" : "justify-between"}`}
           onClick={() => {
             if (collapsed) {
-              setCollapsed(false);
-              return;
+              setCollapsed(false); // explicit
+            } else {
+              setAssetOpen(prev => !prev);
             }
-            setAssetOpen(!assetOpen);
           }}
         >
           <div className="flex items-center">
-            <FontAwesomeIcon icon={faFolderTree} className="mr-2" />
-            {!collapsed && "Asset Management"}
+            <FontAwesomeIcon icon={faFolderTree} />
+            {!collapsed && <span className="ml-3">Asset Management</span>}
           </div>
  
           {!collapsed && (
             <FontAwesomeIcon
               icon={faCaretDown}
-              className={`transition-transform duration-200 ${
-                assetOpen ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-200
+              ${assetOpen ? "rotate-180" : ""}`}
             />
           )}
         </div>
  
-        {!collapsed && assetOpen && (
-          <div className="sidebar-sub">
-            <Link href="/asset-management/structure-library">
-              Structure Library
-            </Link>
-            <Link href="/asset-management/document-upload">
-              Document Upload
-            </Link>
-          </div>
-        )}
  
-        <div className="sidebar-item flex items-center">
-          <FontAwesomeIcon icon={faList} className="mr-2" />
-          {!collapsed && <Link href="/asset-list">Asset List</Link>}
-        </div>
+{!collapsed && assetOpen && (
+  <div className="pl-12 flex flex-col gap-2 py-2">
+    <Link
+      href="/asset-management/structure-library"
+      className="text-gray-600 transition-colors duration-200 hover:text-black"
+    >
+      Structure Library
+    </Link>
  
-        <div className="sidebar-item flex items-center">
-          <FontAwesomeIcon icon={faChartLine} className="mr-2" />
-          {!collapsed && <Link href="/predictions">Predictions</Link>}
-        </div>
+    <Link
+      href="/asset-management/document-upload"
+      className="text-gray-600 transition-colors duration-200 hover:text-black"
+    >
+      Document Upload
+    </Link>
+  </div>
+)}
+ 
+        {/* ASSET LIST */}
+        <Link
+          href="/asset-list"
+          className={`sidebar-item flex items-center w-full px-6 py-3
+          ${collapsed ? "justify-center" : ""}`}
+        >
+          <FontAwesomeIcon icon={faList} />
+          {!collapsed && <span className="ml-3">Asset List</span>}
+        </Link>
+ 
+        {/* PREDICTIONS */}
+        <Link
+          href="/admin/predictions"
+          className={`sidebar-item flex items-center w-full px-6 py-3
+          ${collapsed ? "justify-center" : ""}`}
+        >
+          <FontAwesomeIcon icon={faChartLine} />
+          {!collapsed && <span className="ml-3">Predictions</span>}
+        </Link>
       </nav>
  
       {/* ================= FOOTER ================= */}
-      <div className="sidebar-footer">
-        <button
-          className="sidebar-item flex items-center justify-between w-full"
+      <div className="border-t border-gray-200 py-3">
+ 
+        {/* SETTINGS */}
+        <div
+          className={`sidebar-item flex items-center w-full px-6 py-3 cursor-pointer
+          ${collapsed ? "justify-center" : "justify-between"}`}
           onClick={() => {
             if (collapsed) {
               setCollapsed(false);
-              return;
+            } else {
+              setSettingsOpen(prev => !prev);
             }
-            setSettingsOpen(!settingsOpen);
           }}
         >
           <div className="flex items-center">
-            <FontAwesomeIcon icon={faCog} className="mr-2" />
-            {!collapsed && "Settings"}
+            <FontAwesomeIcon icon={faCog} />
+            {!collapsed && <span className="ml-3">Settings</span>}
           </div>
  
           {!collapsed && (
             <FontAwesomeIcon
               icon={faCaretDown}
-              className={`transition-transform duration-200 ${
-                settingsOpen ? "rotate-180" : ""
-              }`}
+              className={`transition-transform duration-200
+              ${settingsOpen ? "rotate-180" : ""}`}
             />
           )}
-        </button>
+        </div>
  
         {!collapsed && settingsOpen && (
-          <div className="sidebar-sub">
-            <Link href="/admin/document-list">Document List</Link>
-            <Link href="/admin/attribute-admin">Attribute Admin</Link>
-            <Link href="/admin/project-management">
-              Project Management
-            </Link>
-          </div>
-        )}
+  <div className="pl-12 flex flex-col gap-2 py-2">
+    <Link
+      href="/admin/document-list"
+      className="text-gray-600 transition-colors duration-200 hover:text-black"
  
-        <div className="sidebar-item flex items-center">
-          <FontAwesomeIcon icon={faQuestion} className="mr-2" />
-          {!collapsed && "Help"}
+    >
+      Document List
+    </Link>
+ 
+    <Link
+      href="/admin/attribute-admin"
+      className="text-gray-600 transition-colors duration-200 hover:text-black"
+ 
+    >
+      Attribute Admin
+    </Link>
+ 
+    <Link
+      href="/admin/project-management"
+      className="text-gray-600 transition-colors duration-200 hover:text-black"
+ 
+    >
+      Project Management
+    </Link>
+  </div>
+)}
+ 
+        {/* HELP */}
+        <div
+          className={`sidebar-item flex items-center w-full px-6 py-3
+          ${collapsed ? "justify-center" : ""}`}
+        >
+          <FontAwesomeIcon icon={faQuestion} />
+          {!collapsed && <span className="ml-3">Help</span>}
         </div>
       </div>
     </aside>
   );
 }
+ 
