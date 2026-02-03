@@ -6,33 +6,32 @@ type Props = {
 
 export default function DocumentListModal({ asset, onClose, onSelect }: Props) {
   return (
-    <div className={styles.modalBackdrop}>
+    <div className={styles.overlay}>
       <div className={styles.modal}>
+        {/* Header */}
         <div className={styles.header}>
-          <h3>Document List</h3>
-          <button onClick={onClose}>✕</button>
+          <div>
+            <h3>Document List</h3>
+            <span className={styles.subText}>
+              Asset Tag: {asset.structure_name}
+            </span>
+          </div>
+          <button onClick={onClose} className={styles.closeBtn}>✕</button>
         </div>
 
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>File Name</th>
-              <th>Document Type</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {asset.documents.map((doc: any) => (
-              <tr key={doc.document_id}>
-                <td>{doc.original_filename}</td>
-                <td>{doc.document_type_name}</td>
-                <td>
-                  <button onClick={() => onSelect(doc)}>View</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {/* Grid */}
+        <div className={`ag-theme-quartz ${styles.grid}`}>
+          <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}
+            defaultColDef={{
+              sortable: true,
+              filter: true,
+              resizable: true,
+            }}
+            animateRows
+          />
+        </div>
       </div>
     </div>
   );
