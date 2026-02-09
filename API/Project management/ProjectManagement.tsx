@@ -94,6 +94,21 @@ export default function ProjectManagement() {
         />
       </div>
 
+      <ConfirmModal
+        open={openConfirm}
+        title="Verify Project"
+        description={`Are you sure you want to verify this project?\nCRM Opportunity: ${selectedRow?.job_number}`}
+        onCancel={() => {
+          setOpenConfirm(false);
+          setSelectedRow(null);
+        }}
+        onConfirm={() => {
+          verifyProjectByJob(selectedRow);
+          setOpenConfirm(false);
+          setSelectedRow(null);
+        }}
+      />
+
       <div className={styles.footer}>
         <button
           className={styles.secondaryButton}
