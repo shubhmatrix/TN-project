@@ -22,6 +22,8 @@ export default function ProjectManagement() {
     updateRow,
     submitChanges,
   } = useProjectManagement();
+  const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const columnDefs = useMemo<ColDef[]>(() => [
     {
@@ -59,12 +61,17 @@ export default function ProjectManagement() {
     },
     { field: "vendor", headerName: "Vendor", flex: 1 },
     { field: "job_name", headerName: "Job Name", flex: 2 },
-    {
-      field: "is_verified",
+   {
       headerName: "Verify Project",
-      cellRenderer: "agCheckboxCellRenderer",
-      editable: false,
+      field: "is_verified",
       width: 150,
+      cellRenderer: VerifyCheckboxRenderer,
+      cellRendererParams: {
+        onClickVerify: (row: any) => {
+          setSelectedRow(row);
+          setOpenConfirm(true);
+        },
+      },
     },
   ], [projectExplorer]);
 

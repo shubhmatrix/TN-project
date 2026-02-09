@@ -79,6 +79,28 @@ export function useProjectManagement() {
     }
   };
 
+  const verifyProjectByJob = async (row: ProjectRow) => {
+    try {
+      await verifyProject({
+        job_number: row.job_number,
+        data_approver: row.data_approver || "system",
+      });
+
+      toast.success("Project verified");
+
+      // update only that row
+      setProjects((prev) =>
+        prev.map((p) =>
+          p.job_number === row.job_number
+            ? { ...p, is_verified: true }
+            : p
+        )
+      );
+    } catch {
+      toast.error("Verification failed");
+    }
+  };
+  
   return {
     projects,
     projectExplorer,
