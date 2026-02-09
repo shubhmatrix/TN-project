@@ -1,1 +1,89 @@
-Thanks for checking, Eric. package.json is getting ignored due to a global .gitignore rule, not the frontend one. I’m updating it and will push package.json shortly so the app can be built and run locally.
+import React, { useEffect, useState } from "react";
+import { ICellEditorParams } from "ag-grid-community";
+
+interface Props extends ICellEditorParams {
+  projectExplorer: any[];
+}
+
+const CrmOpportunityEditor = (props: Props) => {
+  const [value, setValue] = useState(props.value ?? "");
+
+  useEffect(() => {
+    props.api.stopEditing();
+  }, []);
+
+  return (
+    <select
+      autoFocus
+      value={value}
+      onChange={(e) => {
+        setValue(e.target.value);
+        props.stopEditing();
+      }}
+      style={{ width: "100%", height: "100%" }}
+    >
+      <option value="">Select CRM Opportunity</option>
+      {props.projectExplorer.map((p) => (
+        <option key={p.crm_job_id} value={p.crm_job_id}>
+          {p.crm_job_id} - {p.job_name}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+export default CrmOpportunityEditor;
+
+
+{
+  field: "crm_job_id",
+  headerName: "CRM Opportunity",
+  flex: 2,
+
+  editable: (params) => params.data?._isNew === true,
+
+  cellEditorFramework: CrmOpportunityEditor,
+  cellEditorParams: {
+    projectExplorer,
+  },
+
+  valueFormatter: (params) => {
+    const match = projectExplorer.find(
+      p => p.crm_job_id === params.value
+    );
+    return match
+      ? `${match.crm_job_id} - ${match.job_name}`
+      : params.value;
+  },
+}
+
+onCellValueChanged={(params) => {
+  if (params.colDef.field === "crm_job_id") {
+    const match = projectExplorer.find(
+      p => p.crm_job_id === params.newValue
+    );
+
+    if (match) {
+      params.node.setData({
+        ...params.data,
+        crm_job_id: match.crm_job_id,
+        job_number: match.job_number ?? match.crm_job_id,
+        job_name: match.job_name,
+      });
+    }
+  }
+}}
+
+const addNewJob = () => {
+  setProjects(prev => [
+    {
+      _isNew: true,
+      crm_job_id: "",
+      job_number: "",
+      job_name: "",
+      vendor: "",
+      verified: false,
+    },
+    ...prev,
+  ]);
+};
