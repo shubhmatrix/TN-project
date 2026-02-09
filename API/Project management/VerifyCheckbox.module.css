@@ -5,44 +5,42 @@
   cursor: pointer;
 }
 
-/* hide native checkbox */
+/* Hide native checkbox */
 .checkboxWrapper input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* custom box */
+/* Custom box */
 .customCheckbox {
   width: 16px;
   height: 16px;
-  border: 2px solid #c7c7c7;
   border-radius: 4px;
-  background: #fff;
-  position: relative;
-  transition: all 0.2s ease;
+  border: 2px solid #d1d5db;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
 }
 
-/* checked = yellow */
-.checkboxWrapper input:checked + .customCheckbox {
-  background-color: #f4c430; /* yellow */
-  border-color: #f4c430;
+/* Checked state (YELLOW) */
+.checked {
+  background: #facc15; /* yellow-400 */
+  border-color: #facc15;
 }
 
-/* tick mark */
-.checkboxWrapper input:checked + .customCheckbox::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 1px;
-  width: 4px;
-  height: 8px;
-  border: solid #000;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+/* Checkmark */
+.checked::after {
+  content: "✓";
+  color: #111827;
+  font-size: 12px;
+  font-weight: 700;
 }
 
-/* disabled state */
+/* Disabled look but still yellow */
 .checkboxWrapper input:disabled + .customCheckbox {
-  background-color: #e5e5e5;
-  border-color: #d0d0d0;
-  cursor: not-allowed;
+  opacity: 0.85;
+  cursor: default;
 }
