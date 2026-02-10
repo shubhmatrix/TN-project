@@ -25,7 +25,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 /* -------------------- Types -------------------- */
 type AttributeRow = {
   id: number | null;
-  columnName: string;
+  columnName: string;   // 🔒 backend code
   displayName: string;
   dataType: string;
   uom: string;
@@ -44,7 +44,7 @@ const DOCUMENT_TYPE_ID = 1;
 
 const UOM_VALUES = ["", "psi", "kPa", "bar", "ft", "m", "C", "F", "%"];
 
-const TOGGLE_FIELDS = new Set([
+const TOGGLE_FIELDS = new Set<keyof AttributeRow>([
   "active",
   "required",
   "visible",
@@ -63,13 +63,13 @@ const ToggleRenderer: React.FC<{ value: boolean }> = ({ value }) => (
 const mapApiAttributesToRows = (attributes: any[]): AttributeRow[] =>
   attributes.map((attr: any) => ({
     id: attr.attribute_id ?? null,
-    columnName: attr.code,
+    columnName: attr.code, // 🔒 always backend code
     displayName: attr.name,
     dataType: attr.data_type ?? "string",
     uom: attr.unit ?? "",
     active: true,
     required: Boolean(attr.is_required),
-    visible: Boolean(attr.is_displayed_input),
+    visible: Boolean(attr.is_displayed_in_asset_list), // ✅ FIXED
     llmPrompt: Boolean(attr.is_prediction_input),
     vlmPrompt: Boolean(attr.is_prediction_output),
     notes: attr.description ?? "",
@@ -86,10 +86,9 @@ const mapRowsToSubmitPayload = (
   attributes: rows.map((row, index) => ({
     attribute_id: row.id,
     name: row.displayName,
-    code: row.columnName,
+    code: row.columnName, // 🔒 unchanged
     description: row.notes,
     data_type: row.dataType,
-    unit: row.uom || null,
     unit_of_measure: row.uom || null,
     display_order: index + 1,
     is_required: row.required,
@@ -129,7 +128,7 @@ const AttributeAdministrationList: React.FC = () => {
         headerName: "Column Name",
         rowDrag: true,
         flex: 1.4,
-        editable: true,
+        editable: false, // 🔒 FIXED
       },
       {
         field: "displayName",
@@ -153,9 +152,7 @@ const AttributeAdministrationList: React.FC = () => {
         width: 120,
         editable: true,
         cellEditor: "agSelectCellEditor",
-        cellEditorParams: {
-          values: UOM_VALUES,
-        },
+        cellEditorParams: { values: UOM_VALUES },
       },
       {
         field: "active",
@@ -237,7 +234,7 @@ const AttributeAdministrationList: React.FC = () => {
       ...prev,
       {
         id: null,
-        columnName: "",
+        columnName: `attr_${Date.now()}`, // ✅ FIXED
         displayName: "",
         dataType: "string",
         uom: "",
@@ -256,15 +253,9 @@ const AttributeAdministrationList: React.FC = () => {
   /* -------- Submit -------- */
   const handleSubmitChanges = async () => {
     try {
-      const payload = mapRowsToSubmitPayload(
-        rowData,
-        DOCUMENT_TYPE_ID
-      );
-
+      const payload = mapRowsToSubmitPayload(rowData, DOCUMENT_TYPE_ID);
       console.log("Submitting payload:", payload);
-
       await submitAttributes(payload);
-
       alert("Attributes saved successfully");
     } catch (error) {
       console.error("Submit failed", error);
@@ -288,7 +279,7 @@ const AttributeAdministrationList: React.FC = () => {
           defaultColDef={{ sortable: true, resizable: true, filter: true }}
           onCellClicked={handleCellClicked}
           overlayLoadingTemplate="Loading attributes..."
-          loadingOverlayComponentParams={{ loading }}
+          loading={loading}
         />
       </div>
 
