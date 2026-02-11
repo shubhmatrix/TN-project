@@ -56,58 +56,78 @@ const CreatePoleStructureModal: React.FC<Props> = ({
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h3>Create Pole Structure</h3>
+  <div className={styles.modal}>
+    <div className={styles.title}>Create Pole Structure</div>
 
-        {/* CRM JOB DROPDOWN */}
-        <label>CRM Job</label>
-        <select
-          value={crmJobId ?? ""}
-          onChange={(e) => setCrmJobId(Number(e.target.value))}
-        >
-          <option value="">Select CRM Job</option>
-          {crmJobOptions.map((opt) => (
-            <option key={opt.id} value={opt.id}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-
-        {/* STRUCTURE DROPDOWN */}
-        <label>Structure</label>
-        <select
-          value={structureId ?? ""}
-          onChange={(e) => setStructureId(Number(e.target.value))}
-        >
-          <option value="">Select Structure</option>
-          {structureOptions.map((opt) => (
-            <option key={opt.id} value={opt.id}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-
-        {/* DESCRIPTION */}
-        <label>Description</label>
-        <input
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-
-        {/* NOTES */}
-        <label>Notes</label>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-        />
-
-        <div className={styles.actions}>
-          <button onClick={onClose}>Cancel</button>
-          <button onClick={handleCreate}>Create</button>
-        </div>
-      </div>
+    <div className={styles.field}>
+      <label className={styles.label}>CRM Job</label>
+      <select
+        className={styles.select}
+        value={crmJobId ?? ""}
+        onChange={(e) => setCrmJobId(Number(e.target.value))}
+      >
+        <option value="">Select CRM Job</option>
+        {crmJobOptions.map((opt) => (
+          <option key={opt.id} value={opt.id}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
     </div>
+
+    <div className={styles.field}>
+      <label className={styles.label}>Structure</label>
+      <select
+        className={styles.select}
+        value={structureId ?? ""}
+        onChange={(e) => setStructureId(Number(e.target.value))}
+      >
+        <option value="">Select Structure</option>
+        {structureOptions.map((opt) => (
+          <option key={opt.id} value={opt.id}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    <div className={styles.field}>
+      <label className={styles.label}>Description</label>
+      <input
+        type="text"
+        className={styles.input}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+    </div>
+
+    <div className={styles.field}>
+      <label className={styles.label}>Notes</label>
+      <textarea
+        className={styles.textarea}
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
+    </div>
+
+    <div className={styles.actions}>
+      <button
+        className={styles.cancelBtn}
+        onClick={onClose}
+      >
+        Cancel
+      </button>
+
+      <button
+        className={styles.createBtn}
+        onClick={handleCreate}
+      >
+        Create
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 };
 
