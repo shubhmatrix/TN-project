@@ -1,3 +1,21 @@
+{
+  field: "structure_id",
+  headerName: "Structure",
+  editable: true,
+  cellEditor: "agSelectCellEditor",
+  cellEditorParams: {
+    values: structureOptions.map(opt => opt.value)
+  },
+  valueFormatter: (params: any) => {
+    const match = structureOptions.find(
+      opt => opt.value === params.value
+    );
+    return match ? match.label : "";
+  },
+  flex: 1
+},
+
+
 const handleAddRow = () => {
   const newRow = {
     pole_structure_description: "",
