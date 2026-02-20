@@ -1,7 +1,5 @@
-Standup Update:
-
-I have completed all integrations and pushed the code.
-
-I’ve informed Eric and raised the PR for review.
-
-Regarding Project Management, I believe the Edit functionality may not be required. Since CRM_JOB_ID acts as the primary unique identifier, updating it would effectively mean creating a new job. Therefore, adding an Edit option for CRM_JOB_ID does not make functional sense.
+Today is my last day, and I want to sincerely thank you, Eric and Cole, for the opportunity to be part of the team.
+Eric, I truly appreciate your leadership, guidance, and the trust you placed in me. Your direction and support made a meaningful impact on my growth and confidence in handling complex responsibilities.
+Cole, thank you for your day-to-day guidance and technical support. Your mentorship and collaboration helped me sharpen my skills and navigate challenges effectively.
+I’m grateful for the experience, the learning, and the teamwork we shared. I wish you both and the team continued success, and I hope our paths cross again in the future.
+Thank you again for everything.
