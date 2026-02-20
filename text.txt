@@ -1,5 +1,7 @@
-Got it, thanks for the clarification.
-So we’ll flatten everything into a single updates array, where each item represents one extracted value.
-If it’s an existing record, we’ll send extracted_values_id.
-If it’s new, we’ll send pole_structure_id, document_id, and attribute_id together.
-I’ll structure the payload accordingly.
+Standup Update:
+
+I have completed all integrations and pushed the code.
+
+I’ve informed Eric and raised the PR for review.
+
+Regarding Project Management, I believe the Edit functionality may not be required. Since CRM_JOB_ID acts as the primary unique identifier, updating it would effectively mean creating a new job. Therefore, adding an Edit option for CRM_JOB_ID does not make functional sense.
